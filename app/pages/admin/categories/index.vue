@@ -56,49 +56,55 @@
 
     <!-- Form Modal -->
     <UModal v-model:open="showForm" prevent-close>
-      <UCard>
-        <template #header>
-          <h3 class="text-xl font-bold text-white">
-            {{ editingId ? 'Edit Category' : 'New Category' }}
-          </h3>
-        </template>
+      <template #content>
+        <UCard>
+          <template #header>
+            <h3 class="text-xl font-bold text-white">
+              {{ editingId ? 'Edit Category' : 'New Category' }}
+            </h3>
+          </template>
 
-        <form class="space-y-4" @submit.prevent="saveCategory">
-          <div>
-            <label class="block text-sm font-medium text-gray-300 mb-1">Name</label>
-            <UInput v-model="categoryForm.name" placeholder="Category name" @input="generateSlug" />
-          </div>
+          <form class="space-y-4" @submit.prevent="saveCategory">
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Name</label>
+              <UInput
+                v-model="categoryForm.name"
+                placeholder="Category name"
+                @input="generateSlug"
+              />
+            </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-300 mb-1">Slug</label>
-            <UInput v-model="categoryForm.slug" placeholder="category-slug" />
-          </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Slug</label>
+              <UInput v-model="categoryForm.slug" placeholder="category-slug" />
+            </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-300 mb-1">Description</label>
-            <UTextarea
-              v-model="categoryForm.description"
-              placeholder="Category description"
-              :rows="3"
-            />
-          </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Description</label>
+              <UTextarea
+                v-model="categoryForm.description"
+                placeholder="Category description"
+                :rows="3"
+              />
+            </div>
 
-          <div class="flex gap-3 pt-4">
-            <UButton type="submit" color="primary" class="flex-1" :loading="saving">
-              Save Category
-            </UButton>
-            <UButton
-              type="button"
-              variant="soft"
-              color="neutral"
-              class="flex-1"
-              @click="showForm = false"
-            >
-              Cancel
-            </UButton>
-          </div>
-        </form>
-      </UCard>
+            <div class="flex gap-3 pt-4">
+              <UButton type="submit" color="primary" class="flex-1" :loading="saving">
+                Save Category
+              </UButton>
+              <UButton
+                type="button"
+                variant="soft"
+                color="neutral"
+                class="flex-1"
+                @click="showForm = false"
+              >
+                Cancel
+              </UButton>
+            </div>
+          </form>
+        </UCard>
+      </template>
     </UModal>
   </div>
 </template>
@@ -121,7 +127,6 @@ interface ApiResponse<T> {
   message?: string
 }
 
-const categories = ref<Category[]>([])
 const showForm = ref(false)
 const saving = ref(false)
 const editingId = ref<number | null>(null)
@@ -132,18 +137,13 @@ const categoryForm = reactive({
   description: '',
 })
 
-const getErrorMessage = (error: unknown, fallback: string) => {
-  if (error instanceof Error) return error.message
-  return fallback
-}
+const { data: categoriesData, refresh } = useFetch<ApiResponse<Category[]>>('/api/admin/categories')
 
-const fetchCategories = async () => {
-  try {
-    const res = await $fetch<ApiResponse<Category[]>>('/api/admin/categories')
-    categories.value = res.data || []
-  } catch (error) {
-    console.error('Failed to fetch categories:', error)
-  }
+const categories = computed(() => categoriesData.value?.data || [])
+
+const getErrorMessage = (error: unknown) => {
+  if (error instanceof Error) return error.message
+  return 'Failed to save category'
 }
 
 const generateSlug = () => {
@@ -190,9 +190,9 @@ const saveCategory = async () => {
 
     showForm.value = false
     resetForm()
-    await fetchCategories()
+    await refresh()
   } catch (error) {
-    alert(getErrorMessage(error, 'Failed to save category'))
+    alert(getErrorMessage(error))
   } finally {
     saving.value = false
   }
@@ -203,13 +203,9 @@ const deleteCategory = async (id: number) => {
 
   try {
     await $fetch(`/api/admin/categories/${id}`, { method: 'DELETE' })
-    categories.value = categories.value.filter((c) => c.id !== id)
+    await refresh()
   } catch (error) {
     console.error('Failed to delete category:', error)
   }
 }
-
-onMounted(() => {
-  fetchCategories()
-})
 </script>

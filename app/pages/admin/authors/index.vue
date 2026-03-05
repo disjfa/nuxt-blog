@@ -58,50 +58,52 @@
 
     <!-- Form Modal -->
     <UModal v-model:open="showForm" prevent-close>
-      <UCard>
-        <template #header>
-          <h3 class="text-xl font-bold text-white">
-            {{ editingId ? 'Edit Author' : 'New Author' }}
-          </h3>
-        </template>
+      <template #content>
+        <UCard>
+          <template #header>
+            <h3 class="text-xl font-bold text-white">
+              {{ editingId ? 'Edit Author' : 'New Author' }}
+            </h3>
+          </template>
 
-        <form class="space-y-4" @submit.prevent="saveAuthor">
-          <div>
-            <label class="block text-sm font-medium text-gray-300 mb-1">Name</label>
-            <UInput v-model="authorForm.name" placeholder="Author name" />
-          </div>
+          <form class="space-y-4" @submit.prevent="saveAuthor">
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Name</label>
+              <UInput v-model="authorForm.name" placeholder="Author name" />
+            </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-300 mb-1">Email</label>
-            <UInput v-model="authorForm.email" type="email" placeholder="author@example.com" />
-          </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Email</label>
+              <UInput v-model="authorForm.email" type="email" placeholder="author@example.com" />
+            </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-300 mb-1">Bio</label>
-            <UTextarea v-model="authorForm.bio" placeholder="Author biography" :rows="3" />
-          </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Bio</label>
+              <UTextarea v-model="authorForm.bio" placeholder="Author biography" :rows="3" />
+            </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-300 mb-1">Avatar URL</label>
-            <UInput v-model="authorForm.avatar" placeholder="https://example.com/avatar.jpg" />
-          </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Avatar URL</label>
+              <UInput v-model="authorForm.avatar" placeholder="https://example.com/avatar.jpg" />
+            </div>
 
-          <div class="flex gap-3 pt-4">
-            <UButton type="submit" color="primary" class="flex-1" :loading="saving">
-              Save Author
-            </UButton>
-            <UButton
-              type="button"
-              variant="soft"
-              color="neutral"
-              class="flex-1"
-              @click="showForm = false"
-            >
-              Cancel
-            </UButton>
-          </div>
-        </form>
-      </UCard>
+            <div class="flex gap-3 pt-4">
+              <UButton type="submit" color="primary" class="flex-1" :loading="saving">
+                Save Author
+              </UButton>
+              <UButton
+                type="button"
+                variant="soft"
+                color="neutral"
+                class="flex-1"
+                @click="showForm = false"
+              >
+                Cancel
+              </UButton>
+            </div>
+          </form>
+        </UCard>
+      </template>
     </UModal>
   </div>
 </template>
@@ -125,7 +127,6 @@ interface ApiResponse<T> {
   message?: string
 }
 
-const authors = ref<Author[]>([])
 const showForm = ref(false)
 const saving = ref(false)
 const editingId = ref<number | null>(null)
@@ -137,18 +138,13 @@ const authorForm = reactive({
   avatar: '',
 })
 
+const { data: authorsData, refresh } = useFetch<ApiResponse<Author[]>>('/api/admin/authors')
+
+const authors = computed(() => authorsData.value?.data || [])
+
 const getErrorMessage = (error: unknown) => {
   if (error instanceof Error) return error.message
   return 'Failed to save author'
-}
-
-const fetchAuthors = async () => {
-  try {
-    const res = await $fetch<ApiResponse<Author[]>>('/api/admin/authors')
-    authors.value = res.data || []
-  } catch (error) {
-    console.error('Failed to fetch authors:', error)
-  }
 }
 
 const editAuthor = (author: Author) => {
@@ -187,7 +183,7 @@ const saveAuthor = async () => {
 
     showForm.value = false
     resetForm()
-    await fetchAuthors()
+    await refresh()
   } catch (error) {
     alert(getErrorMessage(error))
   } finally {
@@ -200,13 +196,9 @@ const deleteAuthor = async (id: number) => {
 
   try {
     await $fetch(`/api/admin/authors/${id}`, { method: 'DELETE' })
-    authors.value = authors.value.filter((a) => a.id !== id)
+    await refresh()
   } catch (error) {
     console.error('Failed to delete author:', error)
   }
 }
-
-onMounted(() => {
-  fetchAuthors()
-})
 </script>
