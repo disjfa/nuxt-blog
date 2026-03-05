@@ -62,7 +62,7 @@
               <UButton
                 v-if="comment.status !== 'approved'"
                 variant="soft"
-                color="green"
+                color="success"
                 size="sm"
                 @click="updateCommentStatus(comment.id, 'approved')"
               >
@@ -71,13 +71,13 @@
               <UButton
                 v-if="comment.status !== 'spam'"
                 variant="soft"
-                color="yellow"
+                color="warning"
                 size="sm"
                 @click="updateCommentStatus(comment.id, 'spam')"
               >
                 Spam
               </UButton>
-              <UButton variant="soft" color="red" size="sm" @click="deleteComment(comment.id)">
+              <UButton variant="soft" color="error" size="sm" @click="deleteComment(comment.id)">
                 Delete
               </UButton>
             </td>
@@ -124,13 +124,13 @@ const filteredComments = computed(() => {
   })
 })
 
-const getStatusColor = (status: string) => {
-  const colors: Record<string, string> = {
-    pending: 'yellow',
-    approved: 'green',
-    spam: 'red',
+const getStatusColor = (status: string): 'warning' | 'success' | 'error' | 'neutral' => {
+  const colors: Record<string, 'warning' | 'success' | 'error' | 'neutral'> = {
+    pending: 'warning',
+    approved: 'success',
+    spam: 'error',
   }
-  return colors[status] || 'gray'
+  return colors[status] ?? 'neutral'
 }
 
 const formatDate = (date: string) => {

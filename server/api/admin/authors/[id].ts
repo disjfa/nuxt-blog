@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
       return {
         status: 'error',
-        message: getErrorMessage(error, 'Failed to fetch author'),
+        message: getErrorMessage(error),
       }
     }
   }
@@ -48,7 +48,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
       return {
         status: 'error',
-        message: getErrorMessage(error, 'Failed to update author'),
+        message: getErrorMessage(error),
       }
     }
   }
@@ -63,7 +63,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
       return {
         status: 'error',
-        message: getErrorMessage(error, 'Failed to delete author'),
+        message: getErrorMessage(error),
       }
     }
   }

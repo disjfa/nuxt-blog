@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto">
     <div class="mb-8">
-      <UButton to="/admin/posts" variant="ghost" color="gray" icon="i-lucide-arrow-left">
+      <UButton to="/admin/posts" variant="ghost" color="neutral" icon="i-lucide-arrow-left">
         Back to Posts
       </UButton>
       <h2 class="text-3xl font-bold text-white mb-2 mt-4">
@@ -11,11 +11,7 @@
 
     <form class="space-y-6" @submit.prevent="savePost">
       <UFormField label="Title" name="title">
-        <UInput
-          v-model="form.title"
-          placeholder="Enter post title"
-          @input="generateSlug"
-        />
+        <UInput v-model="form.title" placeholder="Enter post title" @input="generateSlug" />
       </UFormField>
 
       <UFormField label="Slug" name="slug">
@@ -27,7 +23,11 @@
       </UFormField>
 
       <UFormField label="Content" name="content">
-        <UTextarea v-model="form.content" placeholder="Write your post content here..." :rows="12" />
+        <UTextarea
+          v-model="form.content"
+          placeholder="Write your post content here..."
+          :rows="12"
+        />
       </UFormField>
 
       <UFormField label="Author" name="authorId">
@@ -83,7 +83,7 @@ const form = reactive({
   slug: '',
   excerpt: '',
   content: '',
-  authorId: null as number | null,
+  authorId: undefined as number | undefined,
   status: 'draft',
 })
 

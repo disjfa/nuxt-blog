@@ -13,7 +13,8 @@
     "typecheck": "nuxt typecheck",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:seed": "tsx server/db/seed.ts"
+    "db:seed": "tsx server/db/seed.ts",
+    "pre-commit": "npm run format && npm run lint:fix && npm run typecheck"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.95",
@@ -37,5 +38,5 @@
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.5"
   },
-  "packageManager": "pnpm@10.30.3"
+  "packageManager": "npm"
 }

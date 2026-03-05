@@ -9,8 +9,8 @@
             <h1 class="text-xl font-bold text-white">Nuxt Blog Admin</h1>
           </div>
           <div class="flex items-center gap-4">
-            <UButton variant="ghost" color="gray"> Profile </UButton>
-            <UButton variant="ghost" color="gray"> Logout </UButton>
+            <UButton variant="ghost" color="neutral"> Profile </UButton>
+            <UButton variant="ghost" color="neutral"> Logout </UButton>
           </div>
         </div>
       </div>

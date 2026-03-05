@@ -1,4 +1,4 @@
-export const getErrorMessage = (error: unknown, fallback = 'Request failed'): string => {
+export const getErrorMessage = (error: unknown): string => {
   if (error instanceof Error) return error.message
-  return fallback
+  return 'Request failed'
 }

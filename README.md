@@ -65,15 +65,18 @@ See [DATABASE_SETUP.md](./DATABASE_SETUP.md) for complete database configuration
 
 6. **Start Development Server**
    npm run db:migrate
+
    ```
 
-5. **Start Development Server**
+   ```
+
+7. **Start Development Server**
 
    ```bash
    npm run dev
    ```
 
-6. **Access Admin Panel**
+8. **Access Admin Panel**
    - Navigate to `http://localhost:3000/admin`
    - Dashboard displays database statistics
    - Use sidebar to navigate between sections

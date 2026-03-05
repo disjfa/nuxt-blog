@@ -5,7 +5,9 @@
         <h2 class="text-3xl font-bold text-white mb-2">Categories</h2>
         <p class="text-gray-400">Manage post categories</p>
       </div>
-      <UButton color="blue" icon="i-lucide-plus" @click="showForm = true"> New Category </UButton>
+      <UButton color="primary" icon="i-lucide-plus" @click="showForm = true">
+        New Category
+      </UButton>
     </div>
 
     <!-- Categories Table -->
@@ -35,10 +37,10 @@
               {{ category.description || '-' }}
             </td>
             <td class="px-6 py-4 flex gap-2">
-              <UButton variant="soft" color="blue" size="sm" @click="editCategory(category)">
+              <UButton variant="soft" color="primary" size="sm" @click="editCategory(category)">
                 Edit
               </UButton>
-              <UButton variant="soft" color="red" size="sm" @click="deleteCategory(category.id)">
+              <UButton variant="soft" color="error" size="sm" @click="deleteCategory(category.id)">
                 Delete
               </UButton>
             </td>
@@ -53,57 +55,50 @@
     </div>
 
     <!-- Form Modal -->
-    <UModal v-model:open="showForm" title="Category" prevent-close>
-      <template #title>
-        <span class="sr-only">Category</span>
-      </template>
-      <template #content>
-        <div class="p-6">
-          <h3 class="text-xl font-bold text-white mb-4">
+    <UModal v-model:open="showForm" prevent-close>
+      <UCard>
+        <template #header>
+          <h3 class="text-xl font-bold text-white">
             {{ editingId ? 'Edit Category' : 'New Category' }}
           </h3>
+        </template>
 
-          <form class="space-y-4" @submit.prevent="saveCategory">
-            <div>
-              <label class="block text-sm font-medium text-gray-300 mb-1">Name</label>
-              <UInput
-                v-model="categoryForm.name"
-                placeholder="Category name"
-                @input="generateSlug"
-              />
-            </div>
+        <form class="space-y-4" @submit.prevent="saveCategory">
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-1">Name</label>
+            <UInput v-model="categoryForm.name" placeholder="Category name" @input="generateSlug" />
+          </div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-300 mb-1">Slug</label>
-              <UInput v-model="categoryForm.slug" placeholder="category-slug" />
-            </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-1">Slug</label>
+            <UInput v-model="categoryForm.slug" placeholder="category-slug" />
+          </div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-300 mb-1">Description</label>
-              <UTextarea
-                v-model="categoryForm.description"
-                placeholder="Category description"
-                :rows="3"
-              />
-            </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-1">Description</label>
+            <UTextarea
+              v-model="categoryForm.description"
+              placeholder="Category description"
+              :rows="3"
+            />
+          </div>
 
-            <div class="flex gap-3 pt-4">
-              <UButton type="submit" color="blue" class="flex-1" :loading="saving">
-                Save Category
-              </UButton>
-              <UButton
-                type="button"
-                variant="soft"
-                color="gray"
-                class="flex-1"
-                @click="showForm = false"
-              >
-                Cancel
-              </UButton>
-            </div>
-          </form>
-        </div>
-      </template>
+          <div class="flex gap-3 pt-4">
+            <UButton type="submit" color="primary" class="flex-1" :loading="saving">
+              Save Category
+            </UButton>
+            <UButton
+              type="button"
+              variant="soft"
+              color="neutral"
+              class="flex-1"
+              @click="showForm = false"
+            >
+              Cancel
+            </UButton>
+          </div>
+        </form>
+      </UCard>
     </UModal>
   </div>
 </template>

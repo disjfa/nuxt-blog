@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
       return {
         status: 'error',
-        message: getErrorMessage(error, 'Failed to update comment'),
+        message: getErrorMessage(error),
       }
     }
   }
@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
       return {
         status: 'error',
-        message: getErrorMessage(error, 'Failed to delete comment'),
+        message: getErrorMessage(error),
       }
     }
   }

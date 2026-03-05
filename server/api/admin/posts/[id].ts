@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
       return {
         status: 'error',
-        message: getErrorMessage(error, 'Failed to fetch post'),
+        message: getErrorMessage(error),
       }
     }
   }
@@ -50,7 +50,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
       return {
         status: 'error',
-        message: getErrorMessage(error, 'Failed to update post'),
+        message: getErrorMessage(error),
       }
     }
   }
@@ -65,7 +65,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
       return {
         status: 'error',
-        message: getErrorMessage(error, 'Failed to delete post'),
+        message: getErrorMessage(error),
       }
     }
   }

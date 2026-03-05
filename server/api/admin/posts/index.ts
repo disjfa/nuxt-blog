@@ -14,7 +14,8 @@ export default defineEventHandler(async (event) => {
       const limit = Math.min(100, Math.max(1, Number(query.limit) || 10))
       const offset = (page - 1) * limit
 
-      const [{ total }] = await db.select({ total: count() }).from(posts)
+      const countResult = await db.select({ total: count() }).from(posts)
+      const total = countResult[0]?.total ?? 0
 
       const allPosts = await db
         .select({

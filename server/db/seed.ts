@@ -79,6 +79,10 @@ async function seed() {
     const allAuthors = await db.select().from(authors)
     const allCategories = await db.select().from(categories)
 
+    if (!allAuthors.length || !allCategories.length) {
+      throw new Error('Failed to seed authors or categories')
+    }
+
     // Seed Posts
     console.log('Creating posts...')
     const postsData = [
@@ -106,8 +110,8 @@ npm run dev
 
 Start building amazing applications today!`,
         excerpt: 'Learn how to get started with Nuxt 4 and explore its exciting new features.',
-        status: 'published',
-        authorId: allAuthors[0].id,
+        status: 'published' as const,
+        authorId: allAuthors[0]!.id,
         publishedAt: new Date('2024-01-15'),
       },
       {
@@ -136,8 +140,8 @@ const state = reactive({
 
 Master Vue's reactivity!`,
         excerpt: 'A deep dive into Vue 3 reactive system and how it powers your applications.',
-        status: 'published',
-        authorId: allAuthors[0].id,
+        status: 'published' as const,
+        authorId: allAuthors[0]!.id,
         publishedAt: new Date('2024-01-10'),
       },
       {
@@ -169,8 +173,8 @@ Both CSS Grid and Flexbox are powerful layout tools. Here's when to use each one
 
 Choose the right tool for the job!`,
         excerpt: 'Learn when to use CSS Grid or Flexbox for your layout needs.',
-        status: 'published',
-        authorId: allAuthors[1].id,
+        status: 'published' as const,
+        authorId: allAuthors[1]!.id,
         publishedAt: new Date('2024-01-12'),
       },
       {
@@ -204,8 +208,8 @@ const db = drizzle(connection)
 
 Happy querying!`,
         excerpt: 'A comprehensive guide to using Drizzle ORM with MySQL databases.',
-        status: 'published',
-        authorId: allAuthors[1].id,
+        status: 'published' as const,
+        authorId: allAuthors[1]!.id,
         publishedAt: new Date('2024-02-01'),
       },
       {
@@ -234,8 +238,8 @@ const { promise, resolve, reject } = Promise.withResolvers()
 
 Stay modern!`,
         excerpt: 'Explore the latest JavaScript features introduced in ES2024.',
-        status: 'published',
-        authorId: allAuthors[1].id,
+        status: 'published' as const,
+        authorId: allAuthors[1]!.id,
         publishedAt: new Date('2024-01-25'),
       },
       {
@@ -266,8 +270,8 @@ CMD ["npm", "start"]
 
 Containerize everything!`,
         excerpt: 'Learn Docker fundamentals every web developer should know.',
-        status: 'published',
-        authorId: allAuthors[2].id,
+        status: 'published' as const,
+        authorId: allAuthors[2]!.id,
         publishedAt: new Date('2024-02-10'),
       },
       {
@@ -302,8 +306,8 @@ Nuxt UI includes:
 
 Build beautiful admin interfaces quickly!`,
         excerpt: 'Learn how to create professional admin panels using Nuxt UI components.',
-        status: 'published',
-        authorId: allAuthors[0].id,
+        status: 'published' as const,
+        authorId: allAuthors[0]!.id,
         publishedAt: new Date('2024-02-15'),
       },
       {
@@ -332,8 +336,8 @@ docs: update API documentation
 
 Master version control!`,
         excerpt: 'Essential Git workflow practices for better collaboration.',
-        status: 'published',
-        authorId: allAuthors[2].id,
+        status: 'published' as const,
+        authorId: allAuthors[2]!.id,
         publishedAt: new Date('2024-01-18'),
       },
       {
@@ -365,8 +369,8 @@ Use relative units like percentages and rem instead of fixed pixels.
 
 Design for all screens!`,
         excerpt: 'Learn core principles of responsive web design.',
-        status: 'published',
-        authorId: allAuthors[1].id,
+        status: 'published' as const,
+        authorId: allAuthors[1]!.id,
         publishedAt: new Date('2024-01-22'),
       },
       {
@@ -397,8 +401,8 @@ const token = jwt.sign(
 
 Secure your APIs!`,
         excerpt: 'Implement secure API authentication using JSON Web Tokens.',
-        status: 'published',
-        authorId: allAuthors[2].id,
+        status: 'published' as const,
+        authorId: allAuthors[2]!.id,
         publishedAt: new Date('2024-02-05'),
       },
       {
@@ -433,8 +437,8 @@ module.exports = {
 
 Style faster!`,
         excerpt: 'Pro tips for working efficiently with Tailwind CSS.',
-        status: 'published',
-        authorId: allAuthors[1].id,
+        status: 'published' as const,
+        authorId: allAuthors[1]!.id,
         publishedAt: new Date('2024-02-12'),
       },
       {
@@ -464,8 +468,8 @@ test('renders properly', () => {
 
 Test with confidence!`,
         excerpt: 'Learn how to test Vue components effectively with Vitest.',
-        status: 'published',
-        authorId: allAuthors[0].id,
+        status: 'published' as const,
+        authorId: allAuthors[0]!.id,
         publishedAt: new Date('2024-02-18'),
       },
       {
@@ -495,8 +499,8 @@ Implement Redis caching for frequently accessed data.
 
 Speed up your apps!`,
         excerpt: 'Essential techniques for optimizing Node.js application performance.',
-        status: 'published',
-        authorId: allAuthors[2].id,
+        status: 'published' as const,
+        authorId: allAuthors[2]!.id,
         publishedAt: new Date('2024-02-22'),
       },
       {
@@ -528,8 +532,8 @@ Ensure all interactive elements are keyboard accessible.
 
 Build for everyone!`,
         excerpt: 'Learn the fundamentals of web accessibility for inclusive design.',
-        status: 'published',
-        authorId: allAuthors[0].id,
+        status: 'published' as const,
+        authorId: allAuthors[0]!.id,
         publishedAt: new Date('2024-02-25'),
       },
       {
@@ -567,8 +571,8 @@ const user: { name: string; age: number } = { name: 'John', age: 30 }
 
 Write better TypeScript code!`,
         excerpt: 'Essential TypeScript best practices every developer should follow in 2024.',
-        status: 'published',
-        authorId: allAuthors[1].id,
+        status: 'published' as const,
+        authorId: allAuthors[1]!.id,
         publishedAt: new Date('2024-02-20'),
       },
       {
@@ -601,8 +605,8 @@ DATABASE_URL=mysql://...
 
 Deploy with confidence!`,
         excerpt: 'A complete guide to deploying Nuxt applications to production environments.',
-        status: 'published',
-        authorId: allAuthors[2].id,
+        status: 'published' as const,
+        authorId: allAuthors[2]!.id,
         publishedAt: new Date('2024-03-01'),
       },
       {
@@ -636,8 +640,8 @@ function increment() {
 
 Master the Composition API!`,
         excerpt: 'Deep dive into Vue Composition API and learn how to use it effectively.',
-        status: 'draft',
-        authorId: allAuthors[0].id,
+        status: 'draft' as const,
+        authorId: allAuthors[0]!.id,
       },
       {
         title: 'Database Migrations Made Easy',
@@ -664,8 +668,8 @@ npm run db:migrate
 
 Stay in control of your schema!`,
         excerpt: 'Learn how to manage database migrations effectively with modern tools.',
-        status: 'draft',
-        authorId: allAuthors[1].id,
+        status: 'draft' as const,
+        authorId: allAuthors[1]!.id,
       },
       {
         title: 'REST API Design Principles',
@@ -693,8 +697,8 @@ DELETE /api/posts/:id
 
 Build better APIs!`,
         excerpt: 'Essential principles for designing clean and maintainable REST APIs.',
-        status: 'published',
-        authorId: allAuthors[2].id,
+        status: 'published' as const,
+        authorId: allAuthors[2]!.id,
         publishedAt: new Date('2024-01-20'),
       },
       {
@@ -720,8 +724,8 @@ Both GraphQL and REST have their place. Learn when to use each.
 
 Choose wisely!`,
         excerpt: 'Compare GraphQL and REST to make informed API design decisions.',
-        status: 'published',
-        authorId: allAuthors[1].id,
+        status: 'published' as const,
+        authorId: allAuthors[1]!.id,
         publishedAt: new Date('2024-01-28'),
       },
       {
@@ -750,8 +754,8 @@ Nitro can deploy to:
 
 Go serverless!`,
         excerpt: 'Learn how to build and deploy serverless functions with Nitro.',
-        status: 'published',
-        authorId: allAuthors[0].id,
+        status: 'published' as const,
+        authorId: allAuthors[0]!.id,
         publishedAt: new Date('2024-02-08'),
       },
       {
@@ -781,8 +785,8 @@ Use WebP or AVIF for better compression:
 
 Faster page loads!`,
         excerpt: 'Best practices for optimizing images to improve web performance.',
-        status: 'published',
-        authorId: allAuthors[1].id,
+        status: 'published' as const,
+        authorId: allAuthors[1]!.id,
         publishedAt: new Date('2024-02-14'),
       },
       {
@@ -809,8 +813,8 @@ export default defineNitroPlugin(() => {
 
 Build real-time features!`,
         excerpt: 'Implement WebSocket communication in your Nuxt applications.',
-        status: 'draft',
-        authorId: allAuthors[2].id,
+        status: 'draft' as const,
+        authorId: allAuthors[2]!.id,
       },
       {
         title: 'SEO Best Practices for Vue Apps',
@@ -842,8 +846,8 @@ useSeoMeta({
 
 Rank higher!`,
         excerpt: 'Essential SEO techniques for Vue and Nuxt applications.',
-        status: 'published',
-        authorId: allAuthors[0].id,
+        status: 'published' as const,
+        authorId: allAuthors[0]!.id,
         publishedAt: new Date('2024-02-28'),
       },
     ]
@@ -858,76 +862,76 @@ Rank higher!`,
     console.log('Linking posts to categories...')
     const postCategoryLinks = [
       // Post 0: Getting Started with Nuxt 4
-      { postId: allPosts[0].id, categoryId: allCategories[2].id }, // Vue.js
-      { postId: allPosts[0].id, categoryId: allCategories[5].id }, // Tutorial
+      { postId: allPosts[0]!.id, categoryId: allCategories[2]!.id }, // Vue.js
+      { postId: allPosts[0]!.id, categoryId: allCategories[5]!.id }, // Tutorial
       // Post 1: Vue 3 Reactive System
-      { postId: allPosts[1].id, categoryId: allCategories[2].id }, // Vue.js
-      { postId: allPosts[1].id, categoryId: allCategories[1].id }, // JavaScript
+      { postId: allPosts[1]!.id, categoryId: allCategories[2]!.id }, // Vue.js
+      { postId: allPosts[1]!.id, categoryId: allCategories[1]!.id }, // JavaScript
       // Post 2: CSS Grid vs Flexbox
-      { postId: allPosts[2].id, categoryId: allCategories[0].id }, // Web Development
-      { postId: allPosts[2].id, categoryId: allCategories[5].id }, // Tutorial
+      { postId: allPosts[2]!.id, categoryId: allCategories[0]!.id }, // Web Development
+      { postId: allPosts[2]!.id, categoryId: allCategories[5]!.id }, // Tutorial
       // Post 3: Mastering Drizzle ORM
-      { postId: allPosts[3].id, categoryId: allCategories[3].id }, // Database
-      { postId: allPosts[3].id, categoryId: allCategories[5].id }, // Tutorial
+      { postId: allPosts[3]!.id, categoryId: allCategories[3]!.id }, // Database
+      { postId: allPosts[3]!.id, categoryId: allCategories[5]!.id }, // Tutorial
       // Post 4: Modern JavaScript ES2024
-      { postId: allPosts[4].id, categoryId: allCategories[1].id }, // JavaScript
-      { postId: allPosts[4].id, categoryId: allCategories[0].id }, // Web Development
+      { postId: allPosts[4]!.id, categoryId: allCategories[1]!.id }, // JavaScript
+      { postId: allPosts[4]!.id, categoryId: allCategories[0]!.id }, // Web Development
       // Post 5: Docker for Web Developers
-      { postId: allPosts[5].id, categoryId: allCategories[4].id }, // DevOps
-      { postId: allPosts[5].id, categoryId: allCategories[5].id }, // Tutorial
+      { postId: allPosts[5]!.id, categoryId: allCategories[4]!.id }, // DevOps
+      { postId: allPosts[5]!.id, categoryId: allCategories[5]!.id }, // Tutorial
       // Post 6: Building Admin Panels
-      { postId: allPosts[6].id, categoryId: allCategories[2].id }, // Vue.js
-      { postId: allPosts[6].id, categoryId: allCategories[0].id }, // Web Development
+      { postId: allPosts[6]!.id, categoryId: allCategories[2]!.id }, // Vue.js
+      { postId: allPosts[6]!.id, categoryId: allCategories[0]!.id }, // Web Development
       // Post 7: Git Workflow Best Practices
-      { postId: allPosts[7].id, categoryId: allCategories[4].id }, // DevOps
-      { postId: allPosts[7].id, categoryId: allCategories[5].id }, // Tutorial
+      { postId: allPosts[7]!.id, categoryId: allCategories[4]!.id }, // DevOps
+      { postId: allPosts[7]!.id, categoryId: allCategories[5]!.id }, // Tutorial
       // Post 8: Responsive Web Design
-      { postId: allPosts[8].id, categoryId: allCategories[0].id }, // Web Development
-      { postId: allPosts[8].id, categoryId: allCategories[5].id }, // Tutorial
+      { postId: allPosts[8]!.id, categoryId: allCategories[0]!.id }, // Web Development
+      { postId: allPosts[8]!.id, categoryId: allCategories[5]!.id }, // Tutorial
       // Post 9: API Authentication with JWT
-      { postId: allPosts[9].id, categoryId: allCategories[0].id }, // Web Development
-      { postId: allPosts[9].id, categoryId: allCategories[5].id }, // Tutorial
+      { postId: allPosts[9]!.id, categoryId: allCategories[0]!.id }, // Web Development
+      { postId: allPosts[9]!.id, categoryId: allCategories[5]!.id }, // Tutorial
       // Post 10: Tailwind CSS Tips
-      { postId: allPosts[10].id, categoryId: allCategories[0].id }, // Web Development
+      { postId: allPosts[10]!.id, categoryId: allCategories[0]!.id }, // Web Development
       // Post 11: Testing Vue Components with Vitest
-      { postId: allPosts[11].id, categoryId: allCategories[2].id }, // Vue.js
-      { postId: allPosts[11].id, categoryId: allCategories[5].id }, // Tutorial
+      { postId: allPosts[11]!.id, categoryId: allCategories[2]!.id }, // Vue.js
+      { postId: allPosts[11]!.id, categoryId: allCategories[5]!.id }, // Tutorial
       // Post 12: Node.js Performance Optimization
-      { postId: allPosts[12].id, categoryId: allCategories[1].id }, // JavaScript
-      { postId: allPosts[12].id, categoryId: allCategories[4].id }, // DevOps
+      { postId: allPosts[12]!.id, categoryId: allCategories[1]!.id }, // JavaScript
+      { postId: allPosts[12]!.id, categoryId: allCategories[4]!.id }, // DevOps
       // Post 13: Web Accessibility Fundamentals
-      { postId: allPosts[13].id, categoryId: allCategories[0].id }, // Web Development
-      { postId: allPosts[13].id, categoryId: allCategories[5].id }, // Tutorial
+      { postId: allPosts[13]!.id, categoryId: allCategories[0]!.id }, // Web Development
+      { postId: allPosts[13]!.id, categoryId: allCategories[5]!.id }, // Tutorial
       // Post 14: TypeScript Best Practices
-      { postId: allPosts[14].id, categoryId: allCategories[1].id }, // JavaScript
-      { postId: allPosts[14].id, categoryId: allCategories[0].id }, // Web Development
+      { postId: allPosts[14]!.id, categoryId: allCategories[1]!.id }, // JavaScript
+      { postId: allPosts[14]!.id, categoryId: allCategories[0]!.id }, // Web Development
       // Post 15: Deploying Nuxt Apps
-      { postId: allPosts[15].id, categoryId: allCategories[4].id }, // DevOps
-      { postId: allPosts[15].id, categoryId: allCategories[2].id }, // Vue.js
+      { postId: allPosts[15]!.id, categoryId: allCategories[4]!.id }, // DevOps
+      { postId: allPosts[15]!.id, categoryId: allCategories[2]!.id }, // Vue.js
       // Post 16: Understanding Vue Composition API
-      { postId: allPosts[16].id, categoryId: allCategories[2].id }, // Vue.js
-      { postId: allPosts[16].id, categoryId: allCategories[1].id }, // JavaScript
+      { postId: allPosts[16]!.id, categoryId: allCategories[2]!.id }, // Vue.js
+      { postId: allPosts[16]!.id, categoryId: allCategories[1]!.id }, // JavaScript
       // Post 17: Database Migrations
-      { postId: allPosts[17].id, categoryId: allCategories[3].id }, // Database
-      { postId: allPosts[17].id, categoryId: allCategories[5].id }, // Tutorial
+      { postId: allPosts[17]!.id, categoryId: allCategories[3]!.id }, // Database
+      { postId: allPosts[17]!.id, categoryId: allCategories[5]!.id }, // Tutorial
       // Post 18: REST API Design
-      { postId: allPosts[18].id, categoryId: allCategories[0].id }, // Web Development
-      { postId: allPosts[18].id, categoryId: allCategories[5].id }, // Tutorial
+      { postId: allPosts[18]!.id, categoryId: allCategories[0]!.id }, // Web Development
+      { postId: allPosts[18]!.id, categoryId: allCategories[5]!.id }, // Tutorial
       // Post 19: GraphQL vs REST
-      { postId: allPosts[19].id, categoryId: allCategories[0].id }, // Web Development
-      { postId: allPosts[19].id, categoryId: allCategories[1].id }, // JavaScript
+      { postId: allPosts[19]!.id, categoryId: allCategories[0]!.id }, // Web Development
+      { postId: allPosts[19]!.id, categoryId: allCategories[1]!.id }, // JavaScript
       // Post 20: Serverless Functions with Nitro
-      { postId: allPosts[20].id, categoryId: allCategories[2].id }, // Vue.js
-      { postId: allPosts[20].id, categoryId: allCategories[4].id }, // DevOps
+      { postId: allPosts[20]!.id, categoryId: allCategories[2]!.id }, // Vue.js
+      { postId: allPosts[20]!.id, categoryId: allCategories[4]!.id }, // DevOps
       // Post 21: Optimizing Images
-      { postId: allPosts[21].id, categoryId: allCategories[0].id }, // Web Development
-      { postId: allPosts[21].id, categoryId: allCategories[5].id }, // Tutorial
+      { postId: allPosts[21]!.id, categoryId: allCategories[0]!.id }, // Web Development
+      { postId: allPosts[21]!.id, categoryId: allCategories[5]!.id }, // Tutorial
       // Post 22: WebSockets with Nuxt
-      { postId: allPosts[22].id, categoryId: allCategories[2].id }, // Vue.js
-      { postId: allPosts[22].id, categoryId: allCategories[0].id }, // Web Development
+      { postId: allPosts[22]!.id, categoryId: allCategories[2]!.id }, // Vue.js
+      { postId: allPosts[22]!.id, categoryId: allCategories[0]!.id }, // Web Development
       // Post 23: SEO Best Practices
-      { postId: allPosts[23].id, categoryId: allCategories[2].id }, // Vue.js
-      { postId: allPosts[23].id, categoryId: allCategories[0].id }, // Web Development
+      { postId: allPosts[23]!.id, categoryId: allCategories[2]!.id }, // Vue.js
+      { postId: allPosts[23]!.id, categoryId: allCategories[0]!.id }, // Web Development
     ]
 
     await db.insert(postCategories).values(postCategoryLinks)

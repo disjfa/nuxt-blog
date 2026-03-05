@@ -5,7 +5,7 @@
         <h2 class="text-3xl font-bold text-white mb-2">Posts</h2>
         <p class="text-gray-400">Manage your blog posts</p>
       </div>
-      <UButton to="/admin/posts/new" color="blue" icon="i-lucide-plus"> New Post </UButton>
+      <UButton to="/admin/posts/new" color="primary" icon="i-lucide-plus"> New Post </UButton>
     </div>
 
     <!-- Search and Filter -->
@@ -24,15 +24,27 @@
     </div>
 
     <!-- Posts Table -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div
+      class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
+    >
       <table class="w-full">
         <thead>
           <tr class="bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Title</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Author</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Status</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Created</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Actions</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
+              Title
+            </th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
+              Author
+            </th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
+              Status
+            </th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
+              Created
+            </th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -56,10 +68,10 @@
               {{ formatDate(post.createdAt) }}
             </td>
             <td class="px-6 py-4 flex gap-2">
-              <UButton :to="`/admin/posts/${post.id}`" variant="soft" color="blue" size="sm">
+              <UButton :to="`/admin/posts/${post.id}`" variant="soft" color="primary" size="sm">
                 Edit
               </UButton>
-              <UButton variant="soft" color="red" size="sm" @click="deletePost(post.id)">
+              <UButton variant="soft" color="error" size="sm" @click="deletePost(post.id)">
                 Delete
               </UButton>
             </td>
@@ -68,7 +80,10 @@
       </table>
 
       <div v-if="posts.length === 0" class="px-6 py-12 text-center">
-        <UIcon name="i-lucide-file-text" class="w-12 h-12 mx-auto text-gray-400 dark:text-gray-600 mb-4" />
+        <UIcon
+          name="i-lucide-file-text"
+          class="w-12 h-12 mx-auto text-gray-400 dark:text-gray-600 mb-4"
+        />
         <p class="text-gray-500 dark:text-gray-400">No posts yet. Create your first post!</p>
       </div>
     </div>
@@ -78,25 +93,11 @@
         Showing {{ pageStart }}-{{ pageEnd }} of {{ total }} posts
       </div>
       <div class="flex items-center gap-3">
-        <USelect
-          v-model="pageSize"
-          :items="[5, 10, 20, 50]"
-          class="w-24"
-        />
+        <USelect v-model="pageSize" :items="[5, 10, 20, 50]" class="w-24" />
         <div class="flex items-center gap-2">
-          <UButton
-            variant="soft"
-            :disabled="page === 1"
-            @click="page = page - 1"
-          >
-            Prev
-          </UButton>
+          <UButton variant="soft" :disabled="page === 1" @click="page = page - 1"> Prev </UButton>
           <span class="text-sm text-gray-300">Page {{ page }} of {{ pageCount }}</span>
-          <UButton
-            variant="soft"
-            :disabled="page >= pageCount"
-            @click="page = page + 1"
-          >
+          <UButton variant="soft" :disabled="page >= pageCount" @click="page = page + 1">
             Next
           </UButton>
         </div>
@@ -161,13 +162,13 @@ const filteredPosts = computed(() => {
   })
 })
 
-const getStatusColor = (status: string) => {
-  const colors: Record<string, string> = {
-    draft: 'yellow',
-    published: 'green',
-    archived: 'gray',
+const getStatusColor = (status: string): 'warning' | 'success' | 'neutral' => {
+  const colors: Record<string, 'warning' | 'success' | 'neutral'> = {
+    draft: 'warning',
+    published: 'success',
+    archived: 'neutral',
   }
-  return colors[status] || 'gray'
+  return colors[status] ?? 'neutral'
 }
 
 const formatDate = (date: string) => {

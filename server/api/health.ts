@@ -17,7 +17,7 @@ export default defineEventHandler(async () => {
   } catch (error) {
     return {
       status: 'error',
-      message: getErrorMessage(error, 'Failed to connect to database'),
+      message: getErrorMessage(error),
     }
   }
 })

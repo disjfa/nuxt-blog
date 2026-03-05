@@ -5,7 +5,7 @@
         <h2 class="text-3xl font-bold text-white mb-2">Authors</h2>
         <p class="text-gray-400">Manage blog authors</p>
       </div>
-      <UButton color="blue" icon="i-lucide-plus" @click="showForm = true"> New Author</UButton>
+      <UButton color="primary" icon="i-lucide-plus" @click="showForm = true"> New Author</UButton>
     </div>
 
     <!-- Authors Grid -->
@@ -23,7 +23,7 @@
           />
           <div
             v-else
-            class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex-shrink-0"
+            class="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-purple-500 flex-shrink-0"
           />
 
           <div class="flex-1">
@@ -41,10 +41,10 @@
         </p>
 
         <div class="flex gap-2 mt-4">
-          <UButton variant="soft" color="blue" size="sm" @click="editAuthor(author)">
+          <UButton variant="soft" color="primary" size="sm" @click="editAuthor(author)">
             Edit
           </UButton>
-          <UButton variant="soft" color="red" size="sm" @click="deleteAuthor(author.id)">
+          <UButton variant="soft" color="error" size="sm" @click="deleteAuthor(author.id)">
             Delete
           </UButton>
         </div>
@@ -57,54 +57,51 @@
     </div>
 
     <!-- Form Modal -->
-    <UModal v-model:open="showForm" prevent-close :ui="{ width: 'w-full sm:max-w-md' }">
-      <template #title>
-        <span class="sr-only">Category</span>
-      </template>
-      <template #content>
-        <div class="p-6">
-          <h3 class="text-xl font-bold text-white mb-4">
+    <UModal v-model:open="showForm" prevent-close>
+      <UCard>
+        <template #header>
+          <h3 class="text-xl font-bold text-white">
             {{ editingId ? 'Edit Author' : 'New Author' }}
           </h3>
+        </template>
 
-          <form class="space-y-4" @submit.prevent="saveAuthor">
-            <div>
-              <label class="block text-sm font-medium text-gray-300 mb-1">Name</label>
-              <UInput v-model="authorForm.name" placeholder="Author name" />
-            </div>
+        <form class="space-y-4" @submit.prevent="saveAuthor">
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-1">Name</label>
+            <UInput v-model="authorForm.name" placeholder="Author name" />
+          </div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-300 mb-1">Email</label>
-              <UInput v-model="authorForm.email" type="email" placeholder="author@example.com" />
-            </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-1">Email</label>
+            <UInput v-model="authorForm.email" type="email" placeholder="author@example.com" />
+          </div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-300 mb-1">Bio</label>
-              <UTextarea v-model="authorForm.bio" placeholder="Author biography" rows="3" />
-            </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-1">Bio</label>
+            <UTextarea v-model="authorForm.bio" placeholder="Author biography" :rows="3" />
+          </div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-300 mb-1">Avatar URL</label>
-              <UInput v-model="authorForm.avatar" placeholder="https://example.com/avatar.jpg" />
-            </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-1">Avatar URL</label>
+            <UInput v-model="authorForm.avatar" placeholder="https://example.com/avatar.jpg" />
+          </div>
 
-            <div class="flex gap-3 pt-4">
-              <UButton type="submit" color="blue" class="flex-1" :loading="saving">
-                Save Author
-              </UButton>
-              <UButton
-                type="button"
-                variant="soft"
-                color="gray"
-                class="flex-1"
-                @click="showForm = false"
-              >
-                Cancel
-              </UButton>
-            </div>
-          </form>
-        </div>
-      </template>
+          <div class="flex gap-3 pt-4">
+            <UButton type="submit" color="primary" class="flex-1" :loading="saving">
+              Save Author
+            </UButton>
+            <UButton
+              type="button"
+              variant="soft"
+              color="neutral"
+              class="flex-1"
+              @click="showForm = false"
+            >
+              Cancel
+            </UButton>
+          </div>
+        </form>
+      </UCard>
     </UModal>
   </div>
 </template>
@@ -140,9 +137,9 @@ const authorForm = reactive({
   avatar: '',
 })
 
-const getErrorMessage = (error: unknown, fallback: string) => {
+const getErrorMessage = (error: unknown) => {
   if (error instanceof Error) return error.message
-  return fallback
+  return 'Failed to save author'
 }
 
 const fetchAuthors = async () => {
@@ -192,7 +189,7 @@ const saveAuthor = async () => {
     resetForm()
     await fetchAuthors()
   } catch (error) {
-    alert(getErrorMessage(error, 'Failed to save author'))
+    alert(getErrorMessage(error))
   } finally {
     saving.value = false
   }

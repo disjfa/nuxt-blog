@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
       return {
         status: 'error',
-        message: getErrorMessage(error, 'Failed to update category'),
+        message: getErrorMessage(error),
       }
     }
   }
@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
       return {
         status: 'error',
-        message: getErrorMessage(error, 'Failed to delete category'),
+        message: getErrorMessage(error),
       }
     }
   }
